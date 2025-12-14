@@ -15,121 +15,118 @@ The system compares **baseline generation** versus **RAG-enhanced generation** a
 - Context grounding  
 - Hallucination behavior  
 
-The focus is on chronic care domains where hallucination risks are high and reliability is critical.
-
 ---
 
 ## 2. Architecture
 
-**RAG System Workflow**
+### RAG System Workflow
 
+![RAG Architecture](images/rag_architecture.png)
+
+**Workflow**
 1. User submits a medical question  
-2. Query is embedded using **MiniLM-L6-v2**
-3. Relevant document chunks are retrieved using a **FAISS vector index**
-4. Retrieved context is prepended to the prompt
-5. A GPT-2 family model generates a grounded response
-
-This architecture ensures that generation is conditioned on verified medical context rather than relying solely on parametric knowledge.
+2. Query is embedded using **MiniLM-L6-v2**  
+3. Relevant document chunks are retrieved using **FAISS**  
+4. Retrieved context is appended to the prompt  
+5. GPT-2 model generates a grounded response  
 
 ---
 
 ## 3. Dataset & Corpus Processing
 
 **Corpus Composition**
-
-The dataset consists of **9 curated medical documents** across three categories:
-- **Diabetes**
-- **Hypertension**
-- **Common / Overlapping conditions**
+- Diabetes  
+- Hypertension  
+- Common / Overlapping conditions  
 
 **Preprocessing Pipeline**
 - Text cleaning & normalization  
-- Chunking into **200-word windows** with **40-word overlap**
-- Embedding using **MiniLM-L6-v2**
-- FAISS index construction for efficient similarity search  
-
-This design balances retrieval accuracy with computational efficiency.
+- Chunking into **200-word windows** (40-word overlap)  
+- Embedding using **MiniLM-L6-v2**  
+- FAISS index construction  
 
 ---
 
 ## 4. Retrieval Example
 
-For each user query:
-- The top-k most relevant chunks are retrieved from the FAISS index
-- Retrieved evidence is injected into the prompt
-- Generation becomes context-aware and medically grounded  
+![Retrieved Chunks Example](images/retrieval_example.png)
 
-This step significantly improves answer relevance and reduces unsupported claims.
+The figure above shows:
+- A sample medical question  
+- Top-k retrieved chunks from the FAISS index  
+- How retrieval improves contextual grounding  
 
 ---
 
 ## 5. Baseline vs RAG Comparison
 
 | Setting | Behavior |
-|-------|---------|
-| **Baseline (No Retrieval)** | Higher hallucination, vague or incorrect answers |
-| **RAG Enabled** | Improved grounding, higher factual alignment, reduced off-topic output |
-
-RAG consistently improves reliability across all evaluated models.
+|------|---------|
+| **Baseline** | Hallucinations, vague answers |
+| **RAG Enabled** | Improved grounding and accuracy |
 
 ---
 
 ## 6. Model Evaluations
 
-Three GPT-2 family models were evaluated under **Baseline** and **RAG** settings using domain-specific medical questions.
+### 6.1 DistilGPT-2
 
-### 6.1 DistilGPT-2 (Smallest Model)
+![DistilGPT-2 Results](images/model1_distilgpt2.png)
 
-- Struggles under baseline conditions
-- Frequently hallucinates or produces incomplete answers
-- RAG improves relevance but medical depth remains limited
-
-### 6.2 GPT-2 Medium
-
-- Better fluency and structure
-- More stable outputs
-- RAG significantly reduces off-topic and unsupported content
-
-### 6.3 GPT-2 Large
-
-- Best performance across all metrics
-- More coherent and context-aware answers
-- RAG improves grounding, though clinical reasoning is still limited
+- Struggles under baseline conditions  
+- Hallucinates frequently  
+- RAG improves relevance but depth remains limited  
 
 ---
 
-## 6.4 Combined Evaluation Summary
+### 6.2 GPT-2 Medium
 
-**Key Observations**
-- RAG improves correctness and grounding across all models
-- Larger models benefit more from retrieval context
-- Smaller models rely heavily on RAG to reduce hallucinations
+![GPT-2 Medium Results](images/model2_gpt2_medium.png)
+
+- Better fluency and correctness  
+- RAG stabilizes output  
+- Reduced off-target responses  
+
+---
+
+### 6.3 GPT-2 Large
+
+![GPT-2 Large Results](images/model3_gpt2_large.png)
+
+- Best overall performance  
+- RAG improves grounding  
+- Still limited clinical reasoning  
+
+---
+
+## 6.4 Combined Evaluation
+
+![Combined Model Comparison](images/combined_results.png)
+
+**Summary**
+- RAG improves correctness across all models  
+- Larger models benefit more from retrieval  
+- Smaller models rely heavily on RAG  
 
 ---
 
 ## 7. Key Insights
 
-- ✅ Retrieval-Augmented Generation improves factual grounding  
-- 📈 Larger models produce more coherent and stable responses  
-- ⚠️ Smaller models hallucinate frequently without retrieval support  
-- 🏥 Medical QA still requires domain-specific LLMs for high reliability  
-
-RAG provides a strong middle-ground by improving safety without heavy computational costs.
+- ✅ RAG improves factual grounding  
+- 📈 Larger models perform more consistently  
+- ⚠️ Smaller models hallucinate without retrieval  
+- 🏥 Medical QA still needs domain-specific LLMs  
 
 ---
 
 ## 8. Conclusion
 
-This project demonstrates how **Retrieval-Augmented Generation (RAG)** can substantially improve the quality and reliability of GPT-2 family models for **medical question answering**.
+This project demonstrates how **Retrieval-Augmented Generation (RAG)** significantly improves medical QA reliability for **Diabetes & Hypertension**.
 
-By grounding responses in a curated corpus on **diabetes and hypertension**, the system:
-- Reduces hallucinations
-- Improves factual alignment
-- Makes smaller models more usable in sensitive domains
-
-While larger models perform better overall, limitations in clinical reasoning remain—highlighting the importance of **domain-specific medical LLMs**.
-
-This repository includes all code, figures, and documentation required to **reproduce, evaluate, or extend** the system.
+By grounding responses in curated medical documents:
+- Hallucinations are reduced  
+- Context relevance improves  
+- Lightweight models become more usable  
 
 ---
 
@@ -139,13 +136,13 @@ This repository includes all code, figures, and documentation required to **repr
 - Hugging Face Transformers  
 - MiniLM-L6-v2  
 - FAISS  
-- GPT-2 / DistilGPT-2 / GPT-2 Medium / GPT-2 Large  
+- GPT-2 Family Models  
 
 ---
 
 ## 🚀 Future Work
 
-- Integration with domain-specific medical LLMs
-- Clinical guideline alignment (ADA, AHA)
-- Evaluation using medical QA benchmarks
-- Explainable retrieval visualization
+- Medical-domain LLM integration  
+- Clinical guideline alignment (ADA, AHA)  
+- Explainable retrieval visualization  
+- Larger evaluation benchmarks  
