@@ -49,7 +49,7 @@ The system compares **baseline generation** versus **RAG-enhanced generation** a
 
 ## 4. Retrieval Example
 
-![Retrieved Chunks Example](images/retrieval_example.png)
+![Retrieved Chunks Example](images/retrieval_chunks.png)
 
 The figure above shows:
 - A sample medical question  
@@ -71,7 +71,7 @@ The figure above shows:
 
 ### 6.1 DistilGPT-2
 
-![DistilGPT-2 Results](images/model1_distilgpt2.png)
+![DistilGPT-2 Results](images/model1.png)
 
 - Struggles under baseline conditions  
 - Hallucinates frequently  
@@ -81,7 +81,7 @@ The figure above shows:
 
 ### 6.2 GPT-2 Medium
 
-![GPT-2 Medium Results](images/model2_gpt2_medium.png)
+![GPT-2 Medium Results](images/model2.png)
 
 - Better fluency and correctness  
 - RAG stabilizes output  
@@ -91,7 +91,7 @@ The figure above shows:
 
 ### 6.3 GPT-2 Large
 
-![GPT-2 Large Results](images/model3_gpt2_large.png)
+![GPT-2 Large Results](images/model3.png)
 
 - Best overall performance  
 - RAG improves grounding  
