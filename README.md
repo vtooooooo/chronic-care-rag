@@ -49,7 +49,7 @@ The system compares **baseline generation** versus **RAG-enhanced generation** a
 
 ## 4. Retrieval Example
 
-![Retrieved Chunks Example](images/retrieval_chunks.png)
+![Retrieved Chunks Example](images/retrieved_chunks.png)
 
 The figure above shows:
 - A sample medical question  
